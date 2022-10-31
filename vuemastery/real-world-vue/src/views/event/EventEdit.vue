@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-  props: ['event'],
+  //   props: ['event'],
   data: () => {
     return {
       unsavedChanges: false,

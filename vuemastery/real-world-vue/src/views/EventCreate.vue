@@ -41,9 +41,13 @@
 
       <button type="submit">Submit</button>
     </form>
+    <div>{{ $store.state.events }}</div>
   </div>
 </template>
+
 <script>
+import { v4 as uuidv4 } from 'uuid'
+
 export default {
   data() {
     return {
@@ -70,8 +74,26 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.event.organizer = this.$store.state.user
-      console.log('Event:', this.event)
+      const event = {
+        ...this.event,
+        id: uuidv4(),
+        organizer: this.$store.state.user,
+      }
+      this.$store.dispatch('createEvent', event).then(() =>
+        this.$router.push({
+          name: 'EventDetails',
+          params: { id: event.id },
+        })
+      )
+      //   console.log('Event:', this.event)
+      //   EventService.postEvent(event)
+      //     .then(() => {
+      //       // add event to vuex state
+      //       this.$store.commit('ADD_EVENT', event)
+      //     })
+      //     .catch((error) => {
+      //       console.log(error)
+      //     })
     },
   },
 }

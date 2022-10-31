@@ -1,0 +1,120 @@
+{
+  "events": [
+    {
+      "id": 123,
+      "category": "animal welfare",
+      "title": "Cat Adoption Day",
+      "description": "Find your new feline friend at this event.",
+      "location": "Meow Town",
+      "date": "January 28, 2022",
+      "time": "12:00",
+      "petsAllowed": true,
+      "organizer": "Kat Laydee"
+    },
+    {
+      "id": 456,
+      "category": "food",
+      "title": "Community Gardening",
+      "description": "Join us as we tend to the community edible plants.",
+      "location": "Flora City",
+      "date": "March 14, 2022",
+      "time": "10:00",
+      "petsAllowed": true,
+      "organizer": "Fern Pollin"
+    },
+    {
+      "id": 789,
+      "category": "sustainability",
+      "title": "Beach Cleanup",
+      "description": "Help pick up trash along the shore.",
+      "location": "Playa Del Carmen",
+      "date": "July 22, 2022",
+      "time": "11:00",
+      "petsAllowed": false,
+      "organizer": "Carey Wales"
+    },
+    {
+      "id": 1001,
+      "category": "animal welfare",
+      "title": "Dog Adoption Day",
+      "description": "Find your new canine friend at this event.",
+      "location": "Woof Town",
+      "date": "August 28, 2022",
+      "time": "12:00",
+      "petsAllowed": true,
+      "organizer": "Dawg Dahd"
+    },
+    {
+      "id": 1002,
+      "category": "food",
+      "title": "Canned Food Drive",
+      "description": "Bring your canned food to donate to those in need.",
+      "location": "Tin City",
+      "date": "September 14, 2022",
+      "time": "3:00",
+      "petsAllowed": true,
+      "organizer": "Kahn Opiner"
+    },
+    {
+      "id": 1003,
+      "category": "sustainability",
+      "title": "Highway Cleanup",
+      "description": "Help pick up trash along the highway.",
+      "location": "Highway 50",
+      "date": "July 22, 2022",
+      "time": "11:00",
+      "petsAllowed": false,
+      "organizer": "Brody Kill"
+    },
+    {
+      "id": "e8b39cd6-a527-4129-a2ac-4b9c5b611bbe",
+      "category": "animal welfare",
+      "title": "La",
+      "description": "La",
+      "location": "La",
+      "date": "La",
+      "time": "LaLa",
+      "organizer": "M Poppell"
+    },
+    {
+      "id": "697b938c-e697-43fd-ae59-361ed788a664",
+      "category": "sustainability",
+      "title": "NA",
+      "description": "NA",
+      "location": "NA",
+      "date": "NA",
+      "time": "NA",
+      "organizer": "M Poppell"
+    },
+    {
+      "id": "5ccbeec2-855d-4c79-a760-4a22892358c8",
+      "category": "",
+      "title": "test",
+      "description": "test",
+      "location": "test",
+      "date": "test",
+      "time": "test",
+      "organizer": "M Poppell"
+    },
+    {
+      "id": "f531879a-8a28-45fe-a3f4-5a892b6875aa",
+      "category": "nature",
+      "title": "Ta",
+      "description": "Ta",
+      "location": "Ta",
+      "date": "Ta",
+      "time": "Ta",
+      "organizer": "M Poppell"
+    },
+    {
+      "id": "64703a3c-27c6-455f-97f0-0b1bfa165d5e",
+      "category": "",
+      "title": "New",
+      "description": "New",
+      "location": "New",
+      "date": "New",
+      "time": "New",
+      "organizer": "M Poppell"
+    }
+  ]
+}

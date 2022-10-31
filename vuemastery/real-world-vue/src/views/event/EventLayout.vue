@@ -1,6 +1,8 @@
 <template>
-  <div v-if="GStore.event">
-    <h1>{{ GStore.event.title }}</h1>
+  <img alt="Vue logo" src="@/assets/logo.png" />
+
+  <div v-if="event.title">
+    <h1>{{ event.title }}</h1>
     <div id="nav">
       <router-link :to="{ name: 'EventDetails' }">Details</router-link>
       |
@@ -8,11 +10,21 @@
       |
       <router-link :to="{ name: 'EventEdit' }">Edit</router-link>
     </div>
-    <router-view :event="GStore.event" />
+    <router-view :event="event" />
   </div>
 </template>
 <script>
+// export default {
+//   inject: ['store'],
+// }
+// console.dir('this')
+// console.dir(this)
+// console.log(this.$store)
 export default {
-  inject: ['GStore'],
+  computed: {
+    event() {
+      return this.$store.state.event
+    },
+  },
 }
 </script>

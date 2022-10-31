@@ -8,9 +8,10 @@ import EventRegister from '../views/event/EventRegister.vue'
 import EventCreate from '../views/EventCreate.vue'
 import NotFound from '../views/NotFound.vue'
 import NetworkError from '../views/NetworkError.vue'
+import ErrorDisplay from '../views/ErrorDisplay.vue'
 import NProgress from 'nprogress'
-import EventService from '@/services/EventService.js'
-import GStore from '@/store'
+// import EventService from '@/services/EventService.js'
+import store from '@/store'
 
 const routes = [
   {
@@ -30,20 +31,21 @@ const routes = [
     props: true,
     component: EventLayout,
     beforeEnter: (to) => {
-      return EventService.getEvent(to.params.id)
-        .then((response) => {
-          GStore.event = response.data
-        })
-        .catch((error) => {
-          if (error.response && error.response.status == 404) {
-            return {
-              name: '404Resource',
-              params: { resource: 'event' },
-            }
-          } else {
-            return { name: 'NetworkError' }
-          }
-        })
+      return store.dispatch('fetchEvent', to.params.id)
+      //   EventService.getEvent(to.params.id)
+      //     .then((response) => {
+      //       store.state.event = response.data
+      //     })
+      //     .catch((error) => {
+      //       if (error.response && error.response.status == 404) {
+      //         return {
+      //           name: '404Resource',
+      //           params: { resource: 'event' },
+      //         }
+      //       } else {
+      //         return { name: 'NetworkError' }
+      //       }
+      //     })
     },
     children: [
       // <-----
@@ -51,6 +53,9 @@ const routes = [
         path: '',
         name: 'EventDetails',
         component: EventDetails,
+        beforeEnter: (to) => {
+          return store.dispatch('fetchEvent', to.params.id)
+        },
       },
       {
         path: 'register',
@@ -100,6 +105,12 @@ const routes = [
     name: 'NetworkError',
     component: NetworkError,
   },
+  {
+    path: '/error/:error',
+    name: 'ErrorDisplay',
+    component: ErrorDisplay,
+    props: true,
+  },
 ]
 
 const router = createRouter({
@@ -118,9 +129,9 @@ router.beforeEach((to, from) => {
   NProgress.start()
   const notAuthorized = false
   if (to.meta.requireAuth && notAuthorized) {
-    GStore.flashMessage = 'Sorry, you are not authorized to view this page'
+    store.state.flashMessage = 'Sorry, you are not authorized to view this page'
     setTimeout(() => {
-      GStore.flashMessage = ''
+      store.state.flashMessage = ''
     }, 3000)
     if (from.href) {
       return false

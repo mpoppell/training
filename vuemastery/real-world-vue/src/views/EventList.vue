@@ -1,7 +1,6 @@
 <template>
-  <h1>Events for Good</h1>
   <div class="events">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="Vue logo" src="@/assets/logo.png" />
     <EventCard v-for="event in events" :key="event.id" :event="event" />
     <div class="pagination">
       <div class="col">
@@ -18,7 +17,7 @@
       <div class="col page-numbers">
         <router-link
           class="page-number"
-          v-for="page in this.totalPages"
+          v-for="page in totalPages"
           :key="page"
           :to="{ name: EventList, query: { page: page } }"
         >
@@ -42,8 +41,9 @@
 <script>
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
+
 // import router from '@/router'
-import EventService from '@/services/EventService.js'
+// import EventService from '@/services/EventService.js'
 // import { watchEffect } from 'vue' // <--- Have to import it
 
 export default {
@@ -52,42 +52,49 @@ export default {
   components: {
     EventCard,
   },
-  data() {
-    return {
-      events: null,
-      totalEvents: 0,
-      perPage: 2,
-    }
-  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
-      .then((response) => {
-        next((comp) => {
-          comp.events = response.data
-          comp.totalEvents = response.headers['x-total-count']
-        })
-      })
-      .catch(() => {
-        next({ name: 'NetworkError' })
-      })
+    next((comp) => {
+      comp.$store.dispatch('fetchTotalEvents')
+      comp.$store.dispatch('fetchEvents', routeTo.query.page)
+    })
+    // .then((response) => {
+    //     next((comp) => {
+    //       comp.events = response.data
+    //       comp.totalEvents = response.headers['x-total-count']
+    //     })
+    //   })
+    //   .catch(() => {
+    //     next({ name: 'NetworkError' })
+    //   })
   },
   beforeRouteUpdate(routeTo) {
-    return EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
-      .then((response) => {
-        this.events = response.data
-        this.totalEvents = response.headers['x-total-count']
-      })
-      .catch(() => {
-        return { name: 'NetworkError' }
-      })
+    this.$store.dispatch('fetchTotalEvents')
+    return this.$store.dispatch('fetchEvents', routeTo.query.page)
+
+    // return EventService.getEvents(10, parseInt(routeTo.query.page) || 1)
+    //   .then((response) => {
+    //     this.events = response.data
+    //     this.totalEvents = response.headers['x-total-count']
+    //   })
+    //   .catch(() => {
+    //     return { name: 'NetworkError' }
+    //   })
   },
   computed: {
     totalPages() {
-      console.log(this)
-      return Math.ceil(this.totalEvents / this.perPage)
+      //   console.dir(`this.$store.state.totalPages`)
+      //   console.dir(this.$store.state.totalPages)
+      return parseInt(
+        Math.ceil(this.$store.state.totalEvents / this.$store.state.perPage)
+      )
     },
     hasNextPage() {
       return this.page < this.totalPages
+    },
+    events() {
+      //   console.dir(this.$store.state.events)
+      //   console.dir(this)
+      return this.$store.state.events
     },
   },
 }
