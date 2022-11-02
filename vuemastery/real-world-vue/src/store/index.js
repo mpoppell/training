@@ -36,20 +36,19 @@ export default createStore({
           commit('ADD_EVENT', event)
         })
         .catch((error) => {
-          console.log(error)
+          throw error
         })
     },
     fetchEvents({ commit, state }, routeToPage) {
-      EventService.getEvents(state.perPage, parseInt(routeToPage) || 1)
+      return EventService.getEvents(state.perPage, parseInt(routeToPage) || 1)
         .then((response) => {
           commit('SET_EVENTS', response.data)
           //   this.events = response.data
           //   this.totalEvents = response.headers['x-total-count']
         })
-        .catch(() => {
+        .catch((error) => {
           {
-            // eslint-disable-next-line
-            ;('NetworkError')
+            throw error
           }
         })
     },
@@ -58,10 +57,9 @@ export default createStore({
         .then((response) => {
           commit('SET_TOTAL_EVENTS', response.data.length)
         })
-        .catch(() => {
+        .catch((error) => {
           {
-            // eslint-disable-next-line
-            ;('NetworkError')
+            throw error
           }
         })
     },
@@ -70,7 +68,7 @@ export default createStore({
       if (existingEvent) {
         commit('SET_EVENT', existingEvent)
       } else {
-        EventService.getEvent(id)
+        return EventService.getEvent(id)
           .then((response) => {
             commit('SET_EVENT', response.data)
           })
@@ -81,7 +79,7 @@ export default createStore({
                 params: { resource: 'event' },
               }
             } else {
-              return { name: 'NetworkError' }
+              throw error
             }
           })
       }

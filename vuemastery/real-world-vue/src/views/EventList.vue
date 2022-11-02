@@ -55,7 +55,12 @@ export default {
   beforeRouteEnter(routeTo, routeFrom, next) {
     next((comp) => {
       comp.$store.dispatch('fetchTotalEvents')
-      comp.$store.dispatch('fetchEvents', routeTo.query.page)
+      comp.$store.dispatch('fetchEvents', routeTo.query.page).catch((error) => {
+        comp.$router.push({
+          name: 'ErrorDisplay',
+          params: { error: error },
+        })
+      })
     })
     // .then((response) => {
     //     next((comp) => {
@@ -69,7 +74,14 @@ export default {
   },
   beforeRouteUpdate(routeTo) {
     this.$store.dispatch('fetchTotalEvents')
-    return this.$store.dispatch('fetchEvents', routeTo.query.page)
+    return this.$store
+      .dispatch('fetchEvents', routeTo.query.page)
+      .catch((error) => {
+        this.$router.push({
+          name: 'ErrorDisplay',
+          params: { error: error },
+        })
+      })
 
     // return EventService.getEvents(10, parseInt(routeTo.query.page) || 1)
     //   .then((response) => {

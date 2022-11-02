@@ -25,13 +25,30 @@ const routes = [
     name: 'EventCreate',
     component: EventCreate,
   },
+  //   http://localhost:8080/events/123
   {
     path: '/events/:id',
     name: 'EventLayout',
     props: true,
     component: EventLayout,
-    beforeEnter: (to) => {
-      return store.dispatch('fetchEvent', to.params.id)
+    beforeEnter: (to, from, next) => {
+      store.dispatch('fetchEvent', to.params.id).catch((error) => {
+        if (error.response && error.response.status == 404) {
+          next({
+            name: '404Resource',
+            params: { resource: 'event' },
+          })
+        } else if (error == 'Error: Network Error') {
+          next({ name: 'NetworkError' })
+        } else {
+          next({
+            name: 'ErrorDisplay',
+            params: { error: error },
+            props: true,
+            component: ErrorDisplay,
+          })
+        }
+      })
       //   EventService.getEvent(to.params.id)
       //     .then((response) => {
       //       store.state.event = response.data
