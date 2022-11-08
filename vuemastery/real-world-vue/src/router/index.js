@@ -31,38 +31,26 @@ const routes = [
     name: 'EventLayout',
     props: true,
     component: EventLayout,
-    beforeEnter: (to, from, next) => {
-      store.dispatch('fetchEvent', to.params.id).catch((error) => {
-        if (error.response && error.response.status == 404) {
-          next({
-            name: '404Resource',
-            params: { resource: 'event' },
-          })
-        } else if (error == 'Error: Network Error') {
-          next({ name: 'NetworkError' })
-        } else {
-          next({
-            name: 'ErrorDisplay',
-            params: { error: error },
-            props: true,
-            component: ErrorDisplay,
-          })
-        }
-      })
-      //   EventService.getEvent(to.params.id)
-      //     .then((response) => {
-      //       store.state.event = response.data
-      //     })
-      //     .catch((error) => {
-      //       if (error.response && error.response.status == 404) {
-      //         return {
-      //           name: '404Resource',
-      //           params: { resource: 'event' },
-      //         }
-      //       } else {
-      //         return { name: 'NetworkError' }
-      //       }
-      //     })
+    beforeEnter: (to) => {
+      store.dispatch('fetchEvent', to.params.id)
+      // beforeEnter: (to, from, next) => {
+      //   .catch((error) => {
+      //     if (error.response && error.response.status == 404) {
+      //       next({
+      //         name: '404Resource',
+      //         params: { resource: 'event' },
+      //       })
+      //     } else if (error == 'Error: Network Error') {
+      //       next({ name: 'NetworkError' })
+      //     } else {
+      //       next({
+      //         name: 'ErrorDisplay',
+      //         params: { error: error },
+      //         props: true,
+      //         component: ErrorDisplay,
+      //       })
+      //     }
+      //   })
     },
     children: [
       // <-----

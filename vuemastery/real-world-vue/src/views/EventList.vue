@@ -41,7 +41,7 @@
 <script>
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
-
+import { watch } from 'vue'
 // import router from '@/router'
 // import EventService from '@/services/EventService.js'
 // import { watchEffect } from 'vue' // <--- Have to import it
@@ -49,6 +49,12 @@ import EventCard from '@/components/EventCard.vue'
 export default {
   name: 'EventList',
   props: { page: {} },
+  //   https://www.vuemastery.com/courses/vue-3-essentials/setup-and-reactive-references
+  setup(props) {
+    watch(() => {
+      console.log(props.name)
+    })
+  },
   components: {
     EventCard,
   },
