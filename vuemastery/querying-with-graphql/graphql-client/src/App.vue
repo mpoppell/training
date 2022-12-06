@@ -30,31 +30,39 @@
             </p>
             <template v-else>
                 <section class="list-wrapper">
-                  <div class="list">
-                    <h3>All Books</h3>
-                    <p v-for="book in books" :key="book.id">
-                      {{ book.title }} - {{ book.rating }}
-                      <button @click="activeBook = book">Edit rating</button>
-                    </p>
-                  </div>
-                  <div class="list">
-                    <h3>Favorite Books</h3>
-                    <p v-for="book in favBooksResult.favoriteBooks" :key="book.id">
-                      {{ book.title }}
-                    </p>
-                  </div>
+                    <div class="list">
+                        <h3>All Books</h3>
+                        <p v-for="book in books" :key="book.id">
+                          {{ book.title }} - {{ book.rating }}
+                          <button @click="activeBook = book">Edit rating</button>
+                              <!-- New button here -->
+                          <button @click="addBookToFavorites({ book })">
+                            Add to Favorites
+                          </button>
+                        </p>
+                      </div>
+                    <div class="list">
+                        <h3>Favorite Books</h3>
+                        <p
+                            v-for="book in favBooksResult.favoriteBooks"
+                            :key="book.id"
+                        >
+                            {{ book.title }}
+                        </p>
+                    </div>
                 </section>
-              </template>
+            </template>
         </template>
     </div>
 </template>
   
 <script>
 import { ref } from 'vue'
-import { useQuery } from '@vue/apollo-composable'
+import { useQuery, useMutation } from '@vue/apollo-composable'
 import ALL_BOOKS_QUERY from './graphql/allBooks.query.gql'
 import BOOK_SUBSCRIPTION from './graphql/newBook.subscription.gql'
 import FAVORITE_BOOKS_QUERY from './graphql/favoriteBooks.query.gql'
+import ADD_BOOK_TO_FAVORITES_MUTATION from './graphql/addBookToFavorites.mutation.gql'
 
 import EditRating from './components/EditRating.vue'
 import AddBook from './components/AddBook.vue'
@@ -100,10 +108,24 @@ export default {
 
         const { result: favBooksResult } = useQuery(
             FAVORITE_BOOKS_QUERY
-            )
-        console.dir(favBooksResult.value)
+        )
 
-        return { books, searchTerm, loading, error, activeBook, showNewBookForm }
+        
+	const { mutate: addBookToFavorites } = useMutation(
+	  ADD_BOOK_TO_FAVORITES_MUTATION
+	)
+
+	return {
+	  books,
+	  searchTerm,
+	  loading,
+	  error,
+	  activeBook,
+	  showNewBookForm,
+	  favBooksResult,
+	  addBookToFavorites,
+	}
+
     },
 }
 </script>
@@ -127,5 +149,4 @@ export default {
 .list {
     width: 50%;
 }
-
 </style>
