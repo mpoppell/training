@@ -7,11 +7,19 @@
           :key="index"
           class="list-group-item d-flex justify-content-between"
         >
-          <div>{{ item.name }}</div>
+          <div>{{ item.qty }} x &nbsp;</div>
+          <div>{{ item.product.name }} &nbsp;</div>
           <div class="ml-3 font-weight-bold">
-            <curr :amt="item.price"></curr>
+            <curr :amt="item.product.price * Number(item.qty)"></curr>
           </div>
+          <button
+            class="btn btn-outline-success"
+            @click="productCart.subtractItem(index)"
+          >
+            -
+          </button>
         </div>
+        <RouterLink to="/checkout">Checkout</RouterLink>
       </div>
     </transition>
   </div>
@@ -28,7 +36,6 @@ export default {
   },
   setup() {
     const productCart = useMainStore()
-
     return {
       productCart
     }

@@ -20,10 +20,8 @@ import { defineStore } from 'pinia'
 export const productCart = defineStore('productCart', () => {
   const cart = []
   const displayCart = false
-  const cartTotal = computed(() =>
-    this.cart.reduce((inc, item) => Number(item.price) + inc, 0)
-  )
-  return { cart, displayCart, cartTotal }
+
+  return { cart, displayCart }
 })
 
 export const useMainStore = defineStore('productCart', {
@@ -39,8 +37,14 @@ export const useMainStore = defineStore('productCart', {
   getters: {
     // getters receive the state as first parameter
     // doubleCounter: state => state.counter * 2
-    cartTotal: state =>
-      state.cart.reduce((inc, item) => Number(item.price) + inc, 0)
+    cartTotal() {
+      let sum = 0
+      for (let key in this.cart) {
+        sum = sum + this.cart[key].product.price * this.cart[key].qty
+      }
+      return sum
+    }
+
     // use getters in other getters
     // doubleCounterPlusOne(): number {
     //   return this.doubleCounter + 1
@@ -54,6 +58,29 @@ export const useMainStore = defineStore('productCart', {
     // }
     addToCart(item) {
       this.cart.push(item)
+    },
+    addItem(product) {
+      let whichProduct
+      let existing = this.cart.filter(function (item, index) {
+        if (item.product.id == Number(product.id)) {
+          whichProduct = index
+          return true
+        } else {
+          return false
+        }
+      })
+      if (existing.length) {
+        this.cart[whichProduct].qty++
+      } else {
+        this.cart.push({ product: product, qty: 1 })
+      }
+    },
+    subtractItem(id) {
+      if (this.cart[id].qty > 1) {
+        this.cart[id].qty--
+      } else {
+        this.cart.splice(id, 1)
+      }
     }
   }
 })

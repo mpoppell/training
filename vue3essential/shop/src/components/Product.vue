@@ -1,6 +1,6 @@
 <template>
   <div class="col-2 m-auto">
-    <button class="btn btn-success" @click="productCart.addToCart(item)">
+    <button class="btn btn-success" @click="productCart.addItem(item)">
       +
     </button>
   </div>
